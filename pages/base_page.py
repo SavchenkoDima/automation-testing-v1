@@ -1,5 +1,8 @@
+import time
+
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
+from locators.elements_page_locators import PersonalData
 
 
 class BasePage:
@@ -9,6 +12,12 @@ class BasePage:
 
     def open(self):
         self.driver.get(self.url)
+
+    def agree_personal_data(self):
+        try:
+            self.element_is_visible(PersonalData.CONSENT).click()
+        except:
+            pass
 
     def element_is_visible(self, locator, timeout=5):
         return wait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
@@ -29,4 +38,4 @@ class BasePage:
         return wait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
 
     def go_to_element(self, element):
-        self.driver.execute_script("argument[0].scrollIntoView();", element)
+        self.driver.execute_script("arguments[0].scrollIntoView();", element)
