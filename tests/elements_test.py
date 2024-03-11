@@ -1,5 +1,6 @@
+import random
 import time
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
 from conftest import driver
 
 
@@ -35,6 +36,24 @@ class TestElements:
             output_impressive = radio_button.get_output_result()
             radio_button.click_on_the_radio_button('no')
             output_no = radio_button.get_output_result()
-            assert output_yes == 'Yes',  'Yes have not been selected'
+            assert output_yes == 'Yes', 'Yes have not been selected'
             assert output_impressive == 'Impressive', 'Impressive have not been selected'
             assert output_no == 'No', 'No have not been selected'
+
+    class TestWebTable:
+        def test_web_table_add_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            web_table_page.agree_personal_data()
+            new_person = web_table_page.add_new_person()
+            table_result = web_table_page.check_new_person()
+            assert new_person in table_result
+
+        def test_web_table_search_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            web_table_page.agree_personal_data()
+            key_world = web_table_page.add_new_person()[random.randint(0, 5)]
+            web_table_page.search_same_person(key_world)
+            table_result = web_table_page.check_search_person()
+            assert key_world in table_result, 'the peron was not found in the table'

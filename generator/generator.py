@@ -1,13 +1,20 @@
+import random
+
 from data.data import Person
 from faker import Faker
 
-faker_eu = Faker('ru_RU')
+faker_ru = Faker('ru_RU')
 
 
 def generated_person():
     yield Person(
-        full_name=faker_eu.first_name() + ' ' + faker_eu.last_name(),
-        email=faker_eu.email(),
-        current_address=faker_eu.address(),
-        permanent_address=faker_eu.address(),
+        full_name=faker_ru.first_name() + ' ' + faker_ru.last_name(),
+        firstname=faker_ru.first_name(),
+        lastname=faker_ru.last_name(),
+        age=random.randint(10, 80),
+        salary=random.randint(1000, 80000),
+        department=faker_ru.job(),
+        email=faker_ru.email(),
+        current_address=faker_ru.address(),
+        permanent_address=faker_ru.address(),
     )
